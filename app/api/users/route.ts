@@ -10,6 +10,6 @@ export const GET = async () => {
         const users = await User.find();
         return new NextResponse(JSON.stringify(users), {status: 200});
     } catch (err: unknown) {
-        return nextResponseApiError(err, "🔥 🔥 🔥 🔥 🔥 Oops !!! :  Error fetching users... ", 500);
+        return nextResponseApiError(err, "Error fetching users... ", 500);
     }
 }

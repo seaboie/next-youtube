@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 
 export const nextResponseApiError = (err: unknown, message: string, status: number) => {
-    const baseMessage = `Error during ${message}`;
+    const baseMessage = `🔥 🔥 🔥 🔥 🔥  Oops !!! :   ${message}`;
 
     let errorMessage: string;
 
     if (err instanceof Error) {
         console.error(`${baseMessage}\n`, err.message, `\nStack : `, err.stack);
-        errorMessage = `${baseMessage}\n ${err.message} \nStack : ${err.stack}`;
+        errorMessage = `${baseMessage}\n${err.message} \nStack : ${err.stack}`;
     } else if (typeof err === 'string') {
         console.error(`${baseMessage}\n `, err);
         errorMessage = `${baseMessage}\n ${err}`;
