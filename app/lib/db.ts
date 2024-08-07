@@ -26,7 +26,7 @@ const connect = async () => {
     // 
     try {
         mongoose.connect(MONGODB_URI!, {
-            dbName: "next14-mongodb-restapis",
+            dbName: "next14restapi",
             bufferCommands: true
         });
         console.log(`🎉 🎉 🎉 ` + "Connected");
