@@ -47,7 +47,9 @@ npm install mongoose
  
 ## MongoDB (using Mongoose)  
 
-- Fetched  
+- [User API](https://github.com/seaboie/next-youtube/blob/aab87b671db03da077db00c6df9d42dddfcb7a5d/app/api/users/route.ts#L6)   
+
+> Fetched  
 ```ts
 // Find all users
 const users = await User.find();
