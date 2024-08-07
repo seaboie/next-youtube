@@ -45,6 +45,19 @@ npm install mongodb
 npm install mongoose
 ```   
  
+## MongoDB (using Mongoose)  
+
+- Fetched  
+```ts
+// Find all users
+const users = await User.find();
+
+// Find all users with age greater than 30
+const users = await User.find({ age: { $gt: 30 } });
+
+// Find users by name and sort by age descending
+const users = await User.find({ name: 'John Doe' }).sort({ age: -1 });
+```  
 
 
 

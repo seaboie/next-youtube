@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export const nextResponseApiError = (err: unknown, message: string, status: number) => {
+export const nextResponseApiError = (message: string, err: unknown, status: number) => {
     const baseMessage = `🔥 🔥 🔥 🔥 🔥  Oops !!! :   ${message}`;
 
     let errorMessage: string;
