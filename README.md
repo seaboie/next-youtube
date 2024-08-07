@@ -33,23 +33,26 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.  
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-## Install MongoDB  
+## Install MongoDB
+
 ```bash
 npm install mongodb
-```  
+```
 
-## Install mongoose  
+## Install mongoose
+
 ```bash
 npm install mongoose
-```   
- 
-## MongoDB (using Mongoose)  
+```
 
-- [User API](https://github.com/seaboie/next-youtube/blob/aab87b671db03da077db00c6df9d42dddfcb7a5d/app/api/users/route.ts#L6)   
+## MongoDB (using Mongoose)
 
-> Fetched  
+- [User API](https://github.com/seaboie/next-youtube/blob/aab87b671db03da077db00c6df9d42dddfcb7a5d/app/api/users/route.ts#L6)
+
+> Fetched users
+
 ```ts
 // Find all users
 const users = await User.find();
@@ -58,8 +61,23 @@ const users = await User.find();
 const users = await User.find({ age: { $gt: 30 } });
 
 // Find users by name and sort by age descending
-const users = await User.find({ name: 'John Doe' }).sort({ age: -1 });
+const users = await User.find({ name: "John Doe" }).sort({ age: -1 });
+```
+
+> Post new user
+
+```ts
+// get data from `request.json()` keep in `body` constant
+const body = await request.json();
+await connect();
+
+// Save new user data to database
+const newUser = new User(body);
+await newUser.save();
 ```  
 
+> PATCH user  
+```ts
 
+```  
 
