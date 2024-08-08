@@ -4,10 +4,15 @@ import User from "@/app/lib/modals/user";
 import { nextResponseApiError } from "@/app/utils/api/util-error"
 import { Types } from "mongoose";
 import { NextResponse } from "next/server";
+import { getValueOfDynamicRoute } from "@/app/utils/route/util-route";
+
 
 export const PATCH = async (request: Request, context: {params: any}) => {
-    // Get categoryId
-    const categoryId = context.params.category;
+    
+    // const categoryId = context.params.category;
+    // const categoryId = context.params[Object.keys(context.params)[0]];
+    const categoryId = getValueOfDynamicRoute(context);
+    
     
     try {
         const body = await request.json();

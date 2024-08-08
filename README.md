@@ -81,3 +81,14 @@ await newUser.save();
 
 ```  
 
+## Get value of dynamic route  
+`[category]` `[product]`  etc...   
+
+> `localhost:3000/api/categories/[category]?userId=.....`  
+> Example :  
+> `localhost:3000/api/categories/66b372f2cccc0cfa64acb06b?userId=66b3629ccccc0cfa64acb05d`  
+> This get: `66b372f2cccc0cfa64acb06b` = `dynamicDirectoryValue`   
+```ts
+const dynamicDirectoryValue = context.params[Object.keys(context.params)[0]];
+```   
+

@@ -5,7 +5,7 @@ import { nextResponseApiError } from "@/app/utils/api/util-error";
 import { Types } from "mongoose";
 import { NextResponse } from "next/server";
 
-export const GET = async (request: Request) => {
+export const GET = async (request: Request, context: {params: any}) => {
   try {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get("userId");
