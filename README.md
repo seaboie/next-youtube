@@ -92,7 +92,47 @@ await newUser.save();
 const dynamicDirectoryValue = context.params[Object.keys(context.params)[0]];
 ```   
 
-> or Create function  
+---   
+
+## Utilities Function  
+
+>  Next Response API Error    
+```ts
+export const nextResponseApiError = (message: string, err: unknown, status: number) => {
+    const baseMessage = `🔥 🔥 🔥 🔥 🔥  Oops !!! :   ${message}`;
+
+    let errorMessage: string;
+
+    if (err instanceof Error) {
+        console.error(`${baseMessage}\n`, err.message, `\nStack : `, err.stack);
+        errorMessage = `${baseMessage}\n${err.message} \nStack : ${err.stack}`;
+    } else if (typeof err === 'string') {
+        console.error(`${baseMessage}\n `, err);
+        errorMessage = `${baseMessage}\n ${err}`;
+    } else if (typeof err === 'object' && err !== null) {
+        console.error(`${baseMessage}\n`, JSON.stringify(err, null, 2));
+        errorMessage = `${baseMessage}\n `, JSON.stringify(err, null, 2);
+    } else {
+        console.error(`${baseMessage}\n`, err);
+        errorMessage = `${baseMessage}\n`, err;
+    }
+
+    return new NextResponse(baseMessage + '\n' + errorMessage, {status: status});
+}
+```  
+#### Usage  
+
+```ts
+try {
+    ...
+    ...
+    ...
+} catch (err) {
+    return nextResponseApiError("Error in deleting category", err, 500);
+}
+```  
+---  
+> Get value of dynamic route  
 ```ts
 export const getValueOfDynamicRoute = (context: {params: any}) => {
     const keys = Object.keys(context.params);
@@ -111,7 +151,59 @@ export const DELETE = async (request: Request, context: { params: any }) => {
 }
 ```  
 
+---  
+> Check User Category UserId CategoryId  
+```ts
+export const checkUserCategoryUserIdCategoryId = async (
+  connect: Promise<void>,
+  userId: string | null,
+  categoryId: string | null
+) => {
+  if (!userId || !Types.ObjectId.isValid(userId)) {
+    return { status: 400, message: "Invalid or missing userId" };
+  }
+
+  if (!categoryId || !Types.ObjectId.isValid(categoryId)) {
+    return { status: 400, message: "Invalid or missing categoryId" };
+  }
+
+  await connect;
+
+  const user = await User.findById(userId);
+  if (!user) {
+    return { status: 404, message: "User not found..." };
+  }
+
+  const category = await Category.findById(categoryId);
+  if (!category) {
+    return { status: 404, message: "Category not found" };
+  }
+};
+```  
+
+#### Usage  
+```ts
+export const GET = async (request: Request) => {
+  try {
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get("userId");
+    const categoryId = searchParams.get("categoryId");
+
+    const checkError = await checkUserCategoryUserIdCategoryId(connect(), userId, categoryId);
+
+    if (checkError) {
+        return new NextResponse(
+            JSON.stringify({ message: checkError.message }),
+            {status: checkError.status}
+        );
+    }
+    ...
+    ...
+    ...
+  }
+```  
 ---   
+
 
 
 
