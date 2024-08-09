@@ -126,8 +126,8 @@ export const PATCH = async (request: Request, context: { params: any }) => {
 
     const updateBlog = await Blog.findByIdAndUpdate(
       blogId,
-      { title, description },               // 
-      { new: true, runValidators: true }    // Must have
+      { title, description }, //
+      { new: true, runValidators: true } // Must have
     );
 
     return new NextResponse(
@@ -140,6 +140,59 @@ export const PATCH = async (request: Request, context: { params: any }) => {
   } catch (err: unknown) {
     return nextResponseApiError(
       EnumErrorMessageBlogs.ERROR_PATCH_A_SPECIFIC_BLOG,
+      err,
+      500
+    );
+  }
+};
+
+export const DELETE = async (request: Request, context: { params: any }) => {
+  const blogId = context.params[Object.keys(context.params)[0]];
+
+  try {
+    const { searchParams } = await new URL(request.url);
+    const userId = searchParams.get("userId");
+    if (!blogId || !Types.ObjectId.isValid(blogId)) {
+        return new NextResponse(
+            JSON.stringify({ message: EnumMessageBlogs.INVALID_OR_MISSING_BLOG_ID}),
+            {status: 400}
+        );
+    }
+
+    if (!userId || !Types.ObjectId.isValid(userId)) {
+        return new NextResponse(
+            JSON.stringify({ message: EnumMessageUsers.INVALID_OR_MISSING_USER_ID}),
+            {status: 400}
+        );
+    }
+
+    await connect();
+
+    const user = await User.findById(userId);
+    if (!user) {
+        return new NextResponse(
+            JSON.stringify({ message: EnumMessageUsers.USER_NOT_FOUND}),
+            {status: 404}
+        );
+    }
+
+    const blog = await Blog.findOne({_id: blogId, user: userId});
+    if (!blog) {
+        return new NextResponse(
+            JSON.stringify({message: EnumMessageBlogs.BLOG_NOT_FOUND}),
+            {status: 404}
+        );
+    }
+
+    await Blog.findByIdAndDelete(blogId);
+
+    return new NextResponse(
+        JSON.stringify({message: EnumMessageBlogs.BLOG_DELETED})
+    )
+    
+  } catch (err) {
+    return nextResponseApiError(
+      EnumErrorMessageBlogs.ERROR_DELETE_A_SPECIFIC_BLOG,
       err,
       500
     );
