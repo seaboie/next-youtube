@@ -92,3 +92,29 @@ await newUser.save();
 const dynamicDirectoryValue = context.params[Object.keys(context.params)[0]];
 ```   
 
+> or Create function  
+```ts
+export const getValueOfDynamicRoute = (context: {params: any}) => {
+    const keys = Object.keys(context.params);
+    const key = keys[0];
+
+    return context.params[key];
+}
+```  
+
+#### Usage  
+```ts
+export const DELETE = async (request: Request, context: { params: any }) => {
+    const categoryId = getValueOfDynamicRoute(context);
+    ...
+    ...
+}
+```  
+
+---   
+
+
+
+
+
+
